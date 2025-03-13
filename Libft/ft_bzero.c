@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ggoncalv <ggoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/13 14:48:03 by ggoncalv         ###   ########.fr       */
+/*   Created: 2024/10/24 15:43:09 by ggoncalv          #+#    #+#             */
+/*   Updated: 2024/11/13 17:05:03 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "./Libft/libft.h"
-# include "unistd.h"
-# include <fcntl.h>
+#include "libft.h"
 
-typedef struct	s_pipex
+void	ft_bzero(void *s, size_t n)
 {
+	unsigned char	*i;
 
-}				t_pipex;
-
-#endif
+	i = (unsigned char *)s;
+	while (n > 0)
+	{
+		*i = '\0';
+		i++;
+		n--;
+	}
+}

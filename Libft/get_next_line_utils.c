@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/13 14:48:03 by ggoncalv         ###   ########.fr       */
+/*   Created: 2024/11/27 11:18:58 by ggoncalv          #+#    #+#             */
+/*   Updated: 2025/02/03 09:47:42 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "./Libft/libft.h"
-# include "unistd.h"
-# include <fcntl.h>
+#include "get_next_line.h"
 
-typedef struct	s_pipex
+char	*gnl_ft_strjoin(char *buffer, char *temp)
 {
+	char	*conc;
+	int		i;
+	int		j;
 
-}				t_pipex;
-
-#endif
+	conc = ft_calloc((ft_strlen(buffer) + ft_strlen(temp) + 1), sizeof(char));
+	if (conc == NULL)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (buffer[j] != '\0')
+		conc[i++] = buffer[j++];
+	j = 0;
+	while (temp[j] != '\0')
+		conc[i++] = temp[j++];
+	free(buffer);
+	free(temp);
+	return (conc);
+}

@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ggoncalv <ggoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/13 14:48:03 by ggoncalv         ###   ########.fr       */
+/*   Created: 2024/10/23 13:12:35 by ggoncalv          #+#    #+#             */
+/*   Updated: 2024/11/13 17:04:23 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "./Libft/libft.h"
-# include "unistd.h"
-# include <fcntl.h>
+#include "libft.h"
 
-typedef struct	s_pipex
+void	*ft_memset(void *s, int c, size_t n)
 {
+	unsigned char	*j;	
 
-}				t_pipex;
-
-#endif
+	j = (unsigned char *)s;
+	while (n > 0)
+	{
+		*j = (unsigned char)c;
+		j++;
+		n--;
+	}
+	return (s);
+}

@@ -1,24 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: ggoncalv <ggoncalv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/13 14:48:03 by ggoncalv         ###   ########.fr       */
+/*   Created: 2024/10/21 16:00:31 by ggoncalv          #+#    #+#             */
+/*   Updated: 2024/11/14 17:41:09 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-# include "./Libft/libft.h"
-# include "unistd.h"
-# include <fcntl.h>
+#include "libft.h"
 
-typedef struct	s_pipex
+int	ft_isascii(int c)
 {
-
-}				t_pipex;
-
-#endif
+	if (0 <= c && c <= 127)
+		return (1);
+	return (0);
+}
