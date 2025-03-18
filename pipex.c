@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/13 14:56:10 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:36:15 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,32 @@
 
 int	main(int argc, char **argv)
 {
-	int		fd[2];
-	int		txt_fd;
-	pid_t	pid;
-	char	*path;
-	char	*path_cmd;
+	if(parsing_args(argc, argv) == 0)
+		exit(0);
 
-	(void)argc;
-	path = "/bin/";
-	if (pipe(fd) == -1)
-		return 1;
-	pid = fork();
-	if (pid < 0)
-		return 1;
-	if (pid == 0)
-	{
-		close (fd[0]);
-		txt_fd = open(argv[2], O_RDONLY);
-		if (txt_fd == -1)
-			return 1;
-		dup2(txt_fd, STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(txt_fd);
-		close(fd[1]);
-		path_cmd = ft_strjoin(path, argv[1]);
-		execve(path_cmd, &argv[1], NULL);
-	}
-	else
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		path_cmd = ft_strjoin(path, argv[3]);
-		execve(path_cmd, &argv[3], NULL);
-	}
+}
+
+int	parsing_args(int argc, char **argv)
+{
+	int	fd;
+
+	if (argc != 5)
+		exit(0); //not sure if it needs to handle as error if the args are not 4
+	if (access(argv[1], R_OK) == -1)
+		return(ft_printf("%s\n", strerror(errno)), -1);
+	else if (access(argv[4], R_OK) == -1)
+		return(ft_printf("%s\n", strerror(errno)), -1);
+	if(check_paths(argv) == -1)
+		return (-1);
 	return (0);
 }
 
+int	check_paths(char **argv)
+{
+
+}
+//parte I - parsing
+	//checkar se os arquivos existem e possuem as corretas permissoes
+	//checkar se os comandos existem
+//parte II - o pipex
+	//
