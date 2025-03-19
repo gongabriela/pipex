@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/18 17:27:28 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/19 12:52:05 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@
 
 typedef struct	s_pipex
 {
-
+	char	**commands;
+	char	*path;
+	char	*file;
+	t_pipex	*next;
 }				t_pipex;
 
 #endif
