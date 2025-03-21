@@ -32,7 +32,7 @@ void	test_init_list(t_pipex *head)
 		if (head->path != NULL)
 			ft_printf("path: %s\n", head->path);
 		if (head->file != NULL)
-			ft_printf("file: \n", head->file);
+			ft_printf("file: %s\n", head->file);
 		head = head->next;
 	}
 }
