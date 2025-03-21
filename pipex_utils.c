@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/21 16:43:49 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:41:03 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	parsing_args(char **argv, t_pipex *head)
 	while (i <= 4)
 	{
 		if (access(argv[i], R_OK) == -1)
-			return (ft_printf("Error: %s\n", strerror(errno)), -1);
+			return (ft_printf("Error: %s: ./%s\n", strerror(errno), argv[i]), -1);
 		else
 			head->file = ft_strdup(argv[i]);
 		i++;
@@ -127,6 +127,6 @@ char	*get_path(char *command)
 			break ;
 	}
 	if (i == 3)
-		return (ft_printf("Error: command not found\n"), NULL);
+		return (ft_printf("Error: command not found: %s\n", command), NULL);
 	return (command_path);
 }
