@@ -6,38 +6,66 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/19 14:09:18 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:52:25 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-ft_free_nodes(t_pipex **head)
-{
-	//dar free em tudo
-	//precisa dar free individualmente em cada var?
-	//por ex a var **commands, preciso dar free separadamente
-		//pq e um **?
-}
 void	init_list(t_pipex	**head)
 {
 	t_pipex	*node;
+	int		i;
 
-	node = (t_pipex *)malloc(sizeof(t_pipex));
-	if (node == NULL)
-		exit(0); //ver se consegue dar exit com mensagem de erro de malloc!
-	*head = node;
-	node = (t_pipex *)malloc(sizeof(t_pipex));
-	if (node == NULL)
+	i = 0;
+	while (i++ < 2)
 	{
-		//dar free no node anterior
-		//retornar erro de malloc
+		node = (t_pipex *)malloc(sizeof(t_pipex));
+		if (node == NULL)
+		{
+			if (*head != NULL)
+				free(*head);
+			exit(1);
+		}
+		if (*head == NULL)
+			*head = node;
+		else
+			(*head)->next = node;
+		//node->commands = NULL;
+		node->path = NULL;
+		node->file = NULL;
+		node->next = NULL;
 	}
-	(*head)->next = node;
-	node->next = NULL;
 }
 
-int	parsing_args(int argc, char **argv, t_pipex *head)
+void	free_lst(t_pipex **head)
+{
+	t_pipex	*temp;
+	t_pipex	*next;
+	int		i;
+
+	temp = *head;
+	while (temp != NULL)
+	{
+		next = temp->next;
+		if (temp->commands != NULL)
+		{
+			i = 0;
+			while (temp->commands[i] != NULL)
+				free(temp->commands[i++]);
+			free(temp->commands);
+		}
+		if (temp->path != NULL)
+			free(temp->path);
+		if (temp->file != NULL)
+			free(temp->file);
+		free(temp);
+		temp = next;
+	}
+	*head = NULL;
+}
+
+int	parsing_args(char **argv, t_pipex *head)
 {
 	int		i;
 
@@ -45,55 +73,75 @@ int	parsing_args(int argc, char **argv, t_pipex *head)
 	while (i <= 3)
 	{
 		if (access(argv[i], R_OK) == -1)
-			//dar free em tudo e retornar erro de permission denied
+			return(ft_printf("Error: %s\n", strerror(errno)), -1);
 		else
 			head->file = argv[i];
 		i++;
 		head->commands = ft_split(argv[i], ' ');
-		head->path = NULL;
+		if (head->commands == NULL)
+			return (-1);
 		head->path = get_path(head->commands[0]);
 		if (head->path == NULL)
-			//dar free em tudo e erro de command not found
+			return (-1);
 		i++;
 		head = head->next;
 	}
 	return (0);
 }
 
-char	*get_paths(char *command)
+char	*get_path(char *command)
 {
 	char	**paths;
 	char	*command_path;
 	int		i;
 	int		j;
 
-	paths = ft_calloc(4, sizeof(char *));
+	paths = ft_split("/bin/ /usr/bin/ /usr/local/bin/", ' ');
 	if (paths == NULL)
 		return (NULL);
-	paths[0] = "/bin/";
-	paths[1] = "/usr/bin/";
-	paths[2] = "/usr/local/bin/";
 	i = 0;
+	j = 0;
+
 	while (i < 3)
 	{
 		command_path = ft_strjoin(paths[i++], command);
-		if (command_path == NULL)
-			return (NULL); //e dar free no paths
-		if (access(command_path, X_OK) == 0)
+		if (command_path == NULL || (access(command_path, X_OK) == -1 && i == 3) || (access(command_path, X_OK) == 0))
+		{
+			while (paths[j])
+				free(paths[j++]);
+			free(paths);
+		}
+		if (access(command_path, X_OK) == -1)
+			free(command_path);
+		else
 			break ;
 	}
-	j = 0;
-	while (j <= 3)
-	{
-		free(paths[j++]);
-	}
-	free(paths);
 	if (i == 3)
-		return (free(command_path), NULL);
+		return (ft_printf("Error: %s\n", strerror(errno)), NULL);
 	return (command_path);
 }
 
 int	main(int argc, char **argv)
+{
+	t_pipex	*head;
+	(void)argv;
+
+	head = NULL;
+	if (argc != 5)
+		exit(1);
+	init_list(&head);
+	test_list(head);
+	if (parsing_args(argv, head) == -1)
+	{
+		ft_printf("error in args!\n");
+		free_lst(&head);
+		exit(1);
+	}
+	test_init_list(head);
+	free_lst(&head);
+	return(0);
+}
+/*int	main(int argc, char **argv)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -103,12 +151,12 @@ int	main(int argc, char **argv)
 		exit(0);
 	init_list(&head);
 	if (parsing_args(argc, argv, head) == -1)
-		return(/*dar free em tudo e exit*/0);
+		return(dar free em tudo e exit);
 	if (pipe(fd) == -1)
-		return(/*dar free em tudo e exit*/0);
+		return(dar free em tudo e exit0);
 	pid = fork();
 	if (pid == -1)
-		return(/*dar free em tudo e exit*/0);
+		return(dar free em tudo e exit0);
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -124,7 +172,7 @@ int	main(int argc, char **argv)
 		close(fd[0]);
 	}
 	return (0);
-}
+}*/
 
 //parte I - parsing
 	//checkar se os arquivos existem e possuem as corretas permissoes
