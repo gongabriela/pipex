@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/21 18:41:03 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:04:29 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	parsing_args(char **argv, t_pipex *head)
 	while (i <= 4)
 	{
 		if (access(argv[i], R_OK) == -1)
-			return (ft_printf("Error: %s: ./%s\n", strerror(errno), argv[i]), -1);
+			return (ft_printf("Error: %s: ./%s\n", strerror(errno),
+					argv[i]), -1);
 		else
 			head->file = ft_strdup(argv[i]);
 		i++;
@@ -108,13 +109,11 @@ char	*get_path(char *command)
 	char	**paths;
 	char	*command_path;
 	int		i;
-	int		j;
 
 	paths = ft_split("/bin/ /usr/bin/ /usr/local/bin/", ' ');
 	if (paths == NULL)
 		return (NULL);
 	i = 0;
-	j = 0;
 	while (i < 3)
 	{
 		command_path = ft_strjoin(paths[i++], command);

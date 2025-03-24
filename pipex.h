@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/21 16:40:04 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:00:55 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <string.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <stdio.h>
 
 typedef struct s_pipex
 {
@@ -31,6 +34,9 @@ void	free_lst(t_pipex **head);
 int		parsing_args(char **argv, t_pipex *head);
 char	*get_path(char *command);
 void	free_d_array(char **d_array);
+void	exec_child(t_pipex **head, int *fd);
+void	exec_parent(t_pipex **head, int *fd);
+void	error(t_pipex **head);
 
 //tests:
 void	test_list(t_pipex *head);
