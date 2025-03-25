@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/25 12:26:13 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:18:23 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char	*get_path(char *command)
 	char	*command_path;
 	int		i;
 
+	if (command == NULL)
+		return (NULL);
 	paths = ft_split("/bin/ /usr/bin/ /usr/local/bin/", ' ');
 	if (paths == NULL)
 		return (NULL);

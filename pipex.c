@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/25 12:27:00 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:17:53 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int	main(int argc, char **argv)
 	free_lst(&head);
 	return (0);
 }
-//o outfile se nao existir precisa ser criado
+//parsing de "" e whitespaces pros comandos
 //tratar do /dev/urandom - pesquisar waitpid wnohang
+// /dev/urandom cat head -5 outfile
