@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/25 12:18:26 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:27:00 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	main(int argc, char **argv)
 	t_pipex	*head;
 	int		fd[2];
 
+	head = NULL;
 	if (argc != 5)
 		exit(1);
 	init_list(&head);
@@ -85,7 +86,5 @@ int	main(int argc, char **argv)
 	free_lst(&head);
 	return (0);
 }
-//criar outro processo pro cmd2 porque se nao o processo e substituido e o valgrind nao funciona
-//o 2 arquivo - o outfile - se nao existir precisa ser criado
-//o outfile se nao existe precisa ser criado
+//o outfile se nao existir precisa ser criado
 //tratar do /dev/urandom - pesquisar waitpid wnohang
