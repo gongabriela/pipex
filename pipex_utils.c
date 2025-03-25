@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/24 15:04:29 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:10:49 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	free_lst(t_pipex **head)
 	*head = NULL;
 }
 
+//mudar o parsing do outfile!!!
 int	parsing_args(char **argv, t_pipex *head)
 {
 	int		i;

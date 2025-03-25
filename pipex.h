@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/24 15:00:55 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:17:35 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@ int		parsing_args(char **argv, t_pipex *head);
 char	*get_path(char *command);
 void	free_d_array(char **d_array);
 void	exec_child(t_pipex **head, int *fd);
-void	exec_parent(t_pipex **head, int *fd);
+void	exec_child_2(t_pipex **head, int *fd);
 void	error(t_pipex **head);
+void	exec_process(t_pipex **head, int *fd, int child_num);
 
 //tests:
 void	test_list(t_pipex *head);
