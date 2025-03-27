@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/27 14:48:58 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:57:21 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,35 +40,37 @@ void	init_list(t_pipex	**head)
 
 void	parse_file(t_pipex **head, char *file, int file_id)
 {
-	int	ret;
+	t_pipex	*temp;
+	int		ret;
 
+	temp = *head;
 	if (file_id == 1)
-		ret = access(file, R_OK);
+		ret = open(file, O_RDONLY);
 	else
-		ret = access(file, W_OK);
+	{
+		temp = temp->next;
+		ret = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
 	if (ret == -1)
 	{
 		if (errno == ENOENT)
-		{
-			ft_putstr_fd("zsh: ", 2);
-			improved_error(head, "no such file or directory: ", file);
-		}
+			improved_error(head, "zsh: no such file or directory: ", file);
 		else if (errno == EACCES)
-		{
-			ft_putstr_fd("zsh: ", 2);
-			improved_error(head, "permission denied: ", file);
-		}
+			improved_error(head, "zsh: permission denied: ", file);
 		else
 			perror("pipex");
 	}
-	(*head)->file = ft_strdup(file);
+	temp->file = ft_strdup(file);
+	temp->fd = ret;
 }
 
-void	parsing_args(char **argv, t_pipex **head)
+void	parsing_args(int argc, char **argv, t_pipex **head)
 {
 	t_pipex	*temp;
 	int		i;
 
+	if (argc != 5)
+		improved_error(NULL, "invalid number of arguments", NULL);
 	temp = *head;
 	i = 1;
 	parse_file(head, argv[i++], 1);
@@ -86,7 +88,7 @@ void	parsing_args(char **argv, t_pipex **head)
 			temp = temp->next;
 		i++;
 	}
-	temp->file = ft_strdup(argv[i]);
+	parse_file(head, argv[i], 2);
 }
 
 char	*get_path(t_pipex **head, char *command)

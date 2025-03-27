@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/27 12:24:40 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:21:08 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,13 @@ typedef struct s_pipex
 	char			**commands;
 	char			*path;
 	char			*file;
+	int				fd;
 	struct s_pipex	*next;
 }					t_pipex;
 
 void	init_list(t_pipex	**head);
 void	free_lst(t_pipex **head);
-void	parsing_args(char **argv, t_pipex **head);
+void	parsing_args(int argc, char **argv, t_pipex **head);
 char	*get_path(t_pipex **head, char *command);
 void	free_d_array(char **d_array);
 void	exec_child(t_pipex **head, int *fd);

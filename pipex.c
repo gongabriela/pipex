@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/27 14:49:25 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:53:13 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 
 void	exec_child(t_pipex **head, int *fd)
 {
-	int	file_fd;
-
-	file_fd = open((*head)->file, O_RDONLY);
-	if (file_fd == -1)
-		improved_error(head, "could not open file", NULL);
-	dup2(file_fd, STDIN_FILENO);
+	dup2((*head)->fd, STDIN_FILENO);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
@@ -29,17 +24,13 @@ void	exec_child(t_pipex **head, int *fd)
 
 void	exec_child_2(t_pipex **head, int *fd)
 {
-	int		file_fd;
 	t_pipex	*parent;
 
 	parent = (*head)->next;
-	file_fd = open(parent->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (file_fd == -1)
-		parse_file(head, parent->file, 2);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	dup2(file_fd, STDOUT_FILENO);
-	close(file_fd);
+	dup2(parent->fd, STDOUT_FILENO);
+	close(parent->fd);
 	close(fd[1]);
 	if (execve(parent->path, parent->commands, NULL) == -1)
 		improved_error(head, "execve() failed", NULL);
@@ -68,10 +59,8 @@ int	main(int argc, char **argv)
 	int		fd[2];
 
 	head = NULL;
-	if (argc != 5)
-		improved_error(NULL, "invalid number of arguments", NULL);
 	init_list(&head);
-	parsing_args(argv, &head);
+	parsing_args(argc, argv, &head);
 	if (pipe(fd) == -1)
 		improved_error(&head, "pipe() failed", NULL);
 	exec_process(&head, fd, 1);
@@ -81,37 +70,6 @@ int	main(int argc, char **argv)
 	free_lst(&head);
 	return (0);
 }
-//parsing de "" e whitespaces pros comandos
-	//tem q tratar como command not found ou como "" (que no caso do pc da 2 e command not found?)
-//melhorar mensagens de erro
-//diminuir funcao parsing args
-//verificar diferencas pc da 42 e pc de casa
 //tratar do /dev/urandom - pesquisar waitpid wnohang
 // /dev/urandom cat head -5 outfile
-
-//quando o nome do arquivo tem um typo (ou seja, ele nao existe), a mensagem tem que ficar assim:
-	//cat Mkefile
-		//cat: Mkefile: No such file or directory
-			//lembrando de verificar o comando tambem! pq se for por exemplo ct Mkefile tem q printar ct: command not found, e nao ct: Mkefile: command not found
-
-//usando essa sintaxe: <Makefile cat | wc -l > outfile
-//se escreversmos mkefile ct, o output e: -bash: Mkefile: No such file or directory
-
-//tem ou nao tem \n no fim das mensagens do shel???? alguns erros tao com e outros tao sem,
-
-
-//TESTES
-	//file1
-		//nao existe
-		//permissoes r,w,x
-	//cmd1
-		//nao existe
-	//cmd2
-		//nao existe
-	//file2
-		//nao existe
-		//permissoes r,w,x
-
-//no pc da 42:
-	// " ": zsh: command not found:
-	//"": zsh: permission denied:
+//passar os fds dos arquivos para a estrutura?
