@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/26 19:56:22 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:48:58 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,30 @@ void	init_list(t_pipex	**head)
 	}
 }
 
-void	parse_file_1(t_pipex **head, char *file)
+void	parse_file(t_pipex **head, char *file, int file_id)
 {
-	if (access(file, R_OK) == -1)
+	int	ret;
+
+	if (file_id == 1)
+		ret = access(file, R_OK);
+	else
+		ret = access(file, W_OK);
+	if (ret == -1)
 	{
 		if (errno == ENOENT)
 		{
-			ft_putstr_fd("-bash: ", 2);
-			improved_error(head, ": No such file or directory", file);
+			ft_putstr_fd("zsh: ", 2);
+			improved_error(head, "no such file or directory: ", file);
 		}
 		else if (errno == EACCES)
 		{
-			ft_putstr_fd("-bash: ", 2);
-			improved_error(head, ": Permission denied", file);
+			ft_putstr_fd("zsh: ", 2);
+			improved_error(head, "permission denied: ", file);
 		}
 		else
 			perror("pipex");
 	}
+	(*head)->file = ft_strdup(file);
 }
 
 void	parsing_args(char **argv, t_pipex **head)
@@ -64,11 +71,13 @@ void	parsing_args(char **argv, t_pipex **head)
 
 	temp = *head;
 	i = 1;
-	parse_file_1(head, argv[i]);
-	temp->file = ft_strdup(argv[i]);
-	i++;
+	parse_file(head, argv[i++], 1);
 	while (i <= 3)
 	{
+		if (argv[i][0] == '\0')
+			improved_error(head, " : permission denied", NULL);
+		else if (ft_isspace(argv[i][0]) && argv[i][1] == '\0')
+			improved_error(head, " : command not found", argv[i]);
 		temp->commands = ft_split(argv[i], ' ');
 		if (temp->commands == NULL)
 			improved_error(head, "malloc failed: Cannot allocate memory", NULL);
@@ -86,8 +95,6 @@ char	*get_path(t_pipex **head, char *command)
 	char	*command_path;
 	int		i;
 
-	if (command == NULL)
-		improved_error(head, " : command not found", NULL);
 	paths = ft_split("/bin/ /usr/bin/ /usr/local/bin/", ' ');
 	if (paths == NULL)
 		improved_error(head, "malloc failed: Cannot allocate memory", NULL);
@@ -104,6 +111,6 @@ char	*get_path(t_pipex **head, char *command)
 			break ;
 	}
 	if (i == 3)
-		improved_error(head, " : command not found", command);
+		improved_error(head, "zsh: command not found: ", command);
 	return (command_path);
 }

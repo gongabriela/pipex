@@ -55,7 +55,10 @@ void	improved_error(t_pipex **head, char *strerror, char *args)
 
 	if (args != NULL)
 	{
-		full_err = ft_strjoin(args, strerror);
+		if (ft_isspace(args[0]) == 1 && args[1] == '\0')
+			full_err = ft_strjoin(ft_print_isspace(args[0]), strerror);
+		else
+			full_err = ft_strjoin(strerror, args);
 		ft_putendl_fd(full_err, 2);
 		free(full_err);
 	}
@@ -64,4 +67,21 @@ void	improved_error(t_pipex **head, char *strerror, char *args)
 	if (*head != NULL)
 		free_lst(head);
 	exit(EXIT_FAILURE);
+}
+
+char	*ft_print_isspace(char c)
+{
+	if (c == '\t')
+		return ("\\t");
+	else if (c == ' ')
+		return (" ");
+	else if (c == '\n')
+		return ("\\n");
+	else if (c == '\v')
+		return ("\\v");
+	else if (c == '\f')
+		return ("\\f");
+	else if (c == '\r')
+		return ("\\r");
+	return (NULL);
 }

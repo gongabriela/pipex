@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:25:04 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/26 19:53:00 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 12:24:40 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	exec_child(t_pipex **head, int *fd);
 void	exec_child_2(t_pipex **head, int *fd);
 void	exec_process(t_pipex **head, int *fd, int child_num);
 void	improved_error(t_pipex **head, char *strerror, char *args);
-void	parse_file_1(t_pipex **head, char *file);
+void	parse_file(t_pipex **head, char *file, int file_id);
+char	*ft_print_isspace(char c);
 
 //tests:
 void	test_list(t_pipex *head);

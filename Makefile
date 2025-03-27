@@ -6,7 +6,7 @@
 #    By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 11:25:28 by ggoncalv          #+#    #+#              #
-#    Updated: 2025/03/26 19:53:22 by ggoncalv         ###   ########.fr        #
+#    Updated: 2025/03/27 14:42:14 by ggoncalv         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,3 +41,16 @@ re: fclean all
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+################################TESTING###########################################
+
+test: $(NAME)
+	@echo "######################TESTING THE FILES######################"
+	@echo " "
+	@echo "NON EXISTING FILE"
+	@echo "--------------------------------------------------------------"
+	@echo "SHELL:"
+	@< wrongfile cat || true
+	@echo " "
+	@echo "PIPEX & VALGRIND:"
+	@valgrind --leak-check=full --quiet ./pipex wrongfile "cat" "wc -l" outfile

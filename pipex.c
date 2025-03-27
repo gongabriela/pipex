@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:36 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/26 19:59:47 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/27 14:49:25 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_child_2(t_pipex **head, int *fd)
 	parent = (*head)->next;
 	file_fd = open(parent->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (file_fd == -1)
-		parse_file_1(head, parent->file);
+		parse_file(head, parent->file, 2);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	dup2(file_fd, STDOUT_FILENO);
@@ -69,7 +69,7 @@ int	main(int argc, char **argv)
 
 	head = NULL;
 	if (argc != 5)
-		exit(1);
+		improved_error(NULL, "invalid number of arguments", NULL);
 	init_list(&head);
 	parsing_args(argv, &head);
 	if (pipe(fd) == -1)
@@ -82,8 +82,10 @@ int	main(int argc, char **argv)
 	return (0);
 }
 //parsing de "" e whitespaces pros comandos
+	//tem q tratar como command not found ou como "" (que no caso do pc da 2 e command not found?)
 //melhorar mensagens de erro
 //diminuir funcao parsing args
+//verificar diferencas pc da 42 e pc de casa
 //tratar do /dev/urandom - pesquisar waitpid wnohang
 // /dev/urandom cat head -5 outfile
 
@@ -109,3 +111,7 @@ int	main(int argc, char **argv)
 	//file2
 		//nao existe
 		//permissoes r,w,x
+
+//no pc da 42:
+	// " ": zsh: command not found:
+	//"": zsh: permission denied:
