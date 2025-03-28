@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/27 15:57:21 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:59:25 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,24 @@ void	parse_file(t_pipex **head, char *file, int file_id)
 	temp->fd = ret;
 }
 
+void	parse_cmd(t_pipex **head, char *argv, int i)
+{
+	t_pipex	*temp;
+
+	if (i == 2)
+		temp = (*head)->next;
+	else
+		temp = *head;
+	if (argv[0] == '\0')
+		improved_error(head, " : permission denied", NULL);
+	else if (ft_isspace(argv[0] == 1 && argv[1] == '\0'))
+		improved_error(head, " : command not found", argv);
+	temp->commands = ft_split(argv, ' ');
+	if (temp->commands == NULL)
+		improved_error(head, "malloc failed: Cannot allocate memory", NULL);
+	temp->path = get_path(head, temp->commands[0]);
+}
+
 void	parsing_args(int argc, char **argv, t_pipex **head)
 {
 	t_pipex	*temp;
@@ -116,3 +134,5 @@ char	*get_path(t_pipex **head, char *command)
 		improved_error(head, "zsh: command not found: ", command);
 	return (command_path);
 }
+
+//pegar a envp
