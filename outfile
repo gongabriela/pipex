@@ -1,6 +1,0 @@
-        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
-        inet 10.11.6.3  netmask 255.255.0.0  broadcast 10.11.255.255
-        inet6 fe80::2be:43ff:fe89:f37b  prefixlen 64  scopeid 0x20<link>
-        inet 127.0.0.1  netmask 255.0.0.0
-        inet6 ::1  prefixlen 128  scopeid 0x10<host>
-        inet 192.168.122.1  netmask 255.255.255.0  broadcast 192.168.122.255

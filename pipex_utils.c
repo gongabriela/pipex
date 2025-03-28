@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/28 17:59:25 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/28 20:32:20 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	parse_file(t_pipex **head, char *file, int file_id)
 	temp->fd = ret;
 }
 
-void	parse_cmd(t_pipex **head, char *argv, int i)
+void	parse_cmd(t_pipex **head, char *argv, int i,char **envp)
 {
 	t_pipex	*temp;
 
@@ -79,10 +79,10 @@ void	parse_cmd(t_pipex **head, char *argv, int i)
 	temp->commands = ft_split(argv, ' ');
 	if (temp->commands == NULL)
 		improved_error(head, "malloc failed: Cannot allocate memory", NULL);
-	temp->path = get_path(head, temp->commands[0]);
+	temp->path = get_path(head, temp->commands[0], envp);
 }
 
-void	parsing_args(int argc, char **argv, t_pipex **head)
+/*void	parsing_args(int argc, char **argv, t_pipex **head)
 {
 	t_pipex	*temp;
 	int		i;
@@ -107,32 +107,54 @@ void	parsing_args(int argc, char **argv, t_pipex **head)
 		i++;
 	}
 	parse_file(head, argv[i], 2);
-}
+}*/
 
-char	*get_path(t_pipex **head, char *command)
+//extrair a linha path= do envp sem incluir o PATH=
+char	*get_path(t_pipex **head, char *command, char **envp)
 {
-	char	**paths;
+	char	*paths;
 	char	*command_path;
-	int		i;
 
-	paths = ft_split("/bin/ /usr/bin/ /usr/local/bin/", ' ');
+	paths = ft_get_envp(envp);
 	if (paths == NULL)
-		improved_error(head, "malloc failed: Cannot allocate memory", NULL);
-	i = 0;
-	while (i < 3)
+		improved_error(head, "path not found on envp", NULL);
+	command_path = ft_strjoin(paths, command);
+	if (command_path == NULL || access(command_path, X_OK) == -1)
 	{
-		command_path = ft_strjoin(paths[i++], command);
-		if (command_path == NULL || (access(command_path, X_OK) == -1 && i == 3)
-			|| (access(command_path, X_OK) == 0))
-			free_d_array(paths);
-		if (access(command_path, X_OK) == -1 && command_path != NULL)
-			free(command_path);
-		else
-			break ;
-	}
-	if (i == 3)
+		free(command_path);
 		improved_error(head, "zsh: command not found: ", command);
+	}
 	return (command_path);
 }
 
 //pegar a envp
+
+char *ft_get_envp(char **envp)
+{
+	int		i;
+	char	*path;
+
+	i = 0;
+	while (*envp)
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+		envp++;
+	}
+	if (envp[i] != NULL)
+	{
+		path = ft_strdup(*envp + 5);
+		return (path);
+	}
+	return (NULL);
+}
+
+//ver github do mano e dividir o PATH=
+/*char *ft_get_envp(char **envp) {
+    while (*envp) {
+        if (strncmp(*envp, "PATH=", 5) == 0)
+            return *envp + 5;  // Skip "PATH="
+        envp++;
+    }
+    return NULL;
+}*/
