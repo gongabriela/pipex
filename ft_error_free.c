@@ -49,7 +49,7 @@ void	free_d_array(char **d_array)
 	free(d_array);
 }
 
-void	improved_error(t_pipex **head, char *strerror, char *args)
+void	ft_error(t_pipex **head, char *strerror, char *args)
 {
 	char	*full_err;
 
