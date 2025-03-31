@@ -6,7 +6,7 @@
 /*   By: ggoncalv <ggoncalv@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 11:24:52 by ggoncalv          #+#    #+#             */
-/*   Updated: 2025/03/31 16:33:33 by ggoncalv         ###   ########.fr       */
+/*   Updated: 2025/03/31 17:57:43 by ggoncalv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,20 @@ char	*get_path(t_pipex **head, char *command, char **envp)
 	{
 		path_bar = ft_strjoin(split_paths[i], "/");
 		if (path_bar == NULL)
-			return (free_d_array(split_paths), ft_error(head, "malloc failed", NULL), NULL);
+			return (free_d_array(split_paths), ft_error(head, "malloc failed",
+					NULL), NULL);
 		path = ft_strjoin(path_bar, command);
-		if (path == NULL)
-			return (free_d_array(split_paths), ft_error(head, "malloc failed", NULL), NULL);
 		free(path_bar);
+		if (path == NULL)
+			return (free_d_array(split_paths), ft_error(head, "malloc failed",
+					NULL), NULL);
 		if (access(path, X_OK) == 0)
 			return (free_d_array(split_paths), path);
 		free(path);
 		i++;
 	}
-	return (free_d_array(split_paths), ft_error(head, "command not found : ", command), NULL);
+	return (free_d_array(split_paths), ft_error(head, "command not found : ",
+			command), NULL);
 }
 
 char	**ft_get_envp(char **envp, t_pipex **head)
