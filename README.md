@@ -1,22 +1,22 @@
 # Table of contents:
 
-[1. Introduction](https://github.com/gongabriela/pipex/edit/main/README.md#pipex)
+[1. Introduction](#pipex)
 
-[2. pipe(), Interprocess Communication (IPC) and File Descriptors](https://github.com/gongabriela/pipex/edit/main/README.md#my-projects-code-explained)
+[2. pipe(), Interprocess Communication (IPC) and File Descriptors](#my-projects-code-explained)
 
-[3. Fork() and UNIX Processes](https://github.com/gongabriela/pipex/edit/main/README.md#fork)
+[3. Fork() and UNIX Processes](#fork)
 
-[4. Parsing the Commands](https://github.com/gongabriela/pipex/edit/main/README.md#parsing-the-arguments-in-pipex)
+[4. Parsing the Commands](#parsing-the-arguments-in-pipex)
 
-[5. Managing File Descriptors](https://github.com/gongabriela/pipex/edit/main/README.md#managing-fds)
+[5. Managing File Descriptors](#managing-fds)
 
-[6. Executing Commands](https://github.com/gongabriela/pipex/edit/main/README.md#executing-the-commands)
+[6. Executing Commands](#executing-the-commands)
 
-[7. Using wait() and waitpid()](https://github.com/gongabriela/pipex/edit/main/README.md#using-wait-and-waitpid)
+[7. Using wait() and waitpid()](#using-wait-and-waitpid)
 
-[8. Conclusion](https://github.com/gongabriela/pipex/edit/main/README.md#conclusion)
+[8. Conclusion](#conclusion)
 
-[9. Resources](https://github.com/gongabriela/pipex/edit/main/README.md#resources)
+[9. Resources](#resources)
 
 # Pipex
 
